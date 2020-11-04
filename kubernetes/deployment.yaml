@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: admission-webhooks
+  name: admission-webhooks
+  namespace: admission-webhooks
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: admission-webhooks
+  template:
+    metadata:
+      labels:
+        app: admission-webhooks
+    spec:
+      containers:
+      - image: registry.harrisonkiang.com/container-registry/admission-webhooks:9a71c92ad8b5b46dbdd5388070b52ea33e1eeeac
+        name: admission-webhooks
+        ports:
+        - containerPort: 8443
+          protocol: TCP
+          name: https
