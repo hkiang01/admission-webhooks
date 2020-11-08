@@ -1,16 +1,13 @@
 apiVersion: admissionregistration.k8s.io/v1beta1
 kind: ValidatingWebhookConfiguration
 metadata:
-  name: admission-webhooks.admission-webhooks.svc
+  name: admission-webhooks.harrisonkiang.com
   namespace: admission-webhooks
 webhooks:
-  - name: admission-webhooks.admission-webhooks.svc
+  - name: admission-webhooks.harrisonkiang.com
     failurePolicy: Fail
     clientConfig:
-      service:
-        name: admission-webhooks
-        namespace: admission-webhooks
-        path: /validate/deployments
+        url: https://admission-webhooks.harrisonkiang.com/validate/deployments
     rules:
       - apiGroups: ["apps"]
         resources:
