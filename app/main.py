@@ -33,7 +33,8 @@ async def validate_deployments(request: Request) -> JSONResponse:
     template_spec = body["request"]["object"]["spec"]["template"]["spec"]
     if (
         "securityContext" not in template_spec.keys()
-        or template_spec["securityContext"] is not True
+        or "runAsNonRoot" not in template_spec["securityContext"]
+        or template_spec["securityContext"]["runAsNonRoot"] is not True
     ):
         status_code = 403
         response_body = {
