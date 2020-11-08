@@ -12,13 +12,26 @@ def read_root():
 
 @app.post("/validate/deployments")
 async def validate_deployments(request: Request):
-    # print(f"request: {str(request)}")
-    print(f"headers: {request.headers}")
+    """Admission webhook to validate deployments
+
+    Parameters
+    ----------
+    request : Request
+        See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#request
+
+    Returns
+    -------
+    JSONResponse
+        See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#response
+    """  # noqa: E501
     body = await request.body()
-    print(f"body: {body.decode()}")
-    return JSONResponse(
-        {"allowed": True, "status": {"message": "test admission webhook"}}
-    )
+    uid = body["request"]["uid"]
+    allowed_response_body = {
+        "apiVersion": "admission.k8s.io/v1",
+        "kind": "AdmissionReview",
+        "response": {"uid": uid, "allowed": True},
+    }
+    return JSONResponse(allowed_response_body)
 
 
 if __name__ == "__main__":
