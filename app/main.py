@@ -27,8 +27,8 @@ async def validate_deployments(request: Request) -> JSONResponse:
         See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#response
     """  # noqa: E501
     body_raw = await request.body()
+    print(f"body_raw: {body_raw}\n")
     body = json.loads(body_raw)
-    print(f"body: {body}\n")
     uid = body["request"]["uid"]
     allowed_response_body = {
         "apiVersion": "admission.k8s.io/v1",
