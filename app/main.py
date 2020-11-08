@@ -30,13 +30,34 @@ async def validate_deployments(request: Request) -> JSONResponse:
     print(f"body_raw: {body_raw}\n")
     body = json.loads(body_raw)
     uid = body["request"]["uid"]
-    allowed_response_body = {
-        "apiVersion": "admission.k8s.io/v1",
-        "kind": "AdmissionReview",
-        "response": {"uid": uid, "allowed": True},
-    }
+    template_spec = body["request"]["object"]["spec"]["template"]["spec"]
+    if (
+        "securityContext" not in template_spec.keys()
+        or template_spec["securityContext"] is not True
+    ):
+        status_code = 403
+        response_body = {
+            "apiVersion": "admission.k8s.io/v1",
+            "kind": "AdmissionReview",
+            "response": {
+                "uid": uid,
+                "allowed": False,
+                "status": {
+                    "code": 403,
+                    "message": "You must specify a securityContext "
+                    "with runAsNonRoot set to `true`",
+                },
+            },
+        }
+    else:
+        status_code = 200
+        response_body = {
+            "apiVersion": "admission.k8s.io/v1",
+            "kind": "AdmissionReview",
+            "response": {"uid": uid, "allowed": True},
+        }
 
-    return JSONResponse(allowed_response_body, status_code=200)
+    return JSONResponse(response_body, status_code=status_code)
 
 
 if __name__ == "__main__":
