@@ -15,8 +15,6 @@ spec:
       labels:
         app: nginx
     spec:
-      securityContext:
-        runAsNonRoot: true
       containers:
       - image: nginx
         name: nginx

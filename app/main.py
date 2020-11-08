@@ -36,7 +36,6 @@ async def validate_deployments(request: Request) -> JSONResponse:
         or "runAsNonRoot" not in template_spec["securityContext"]
         or template_spec["securityContext"]["runAsNonRoot"] is not True
     ):
-        status_code = 403
         response_body = {
             "apiVersion": "admission.k8s.io/v1",
             "kind": "AdmissionReview",
@@ -51,14 +50,13 @@ async def validate_deployments(request: Request) -> JSONResponse:
             },
         }
     else:
-        status_code = 200
         response_body = {
             "apiVersion": "admission.k8s.io/v1",
             "kind": "AdmissionReview",
             "response": {"uid": uid, "allowed": True},
         }
 
-    return JSONResponse(response_body, status_code=status_code)
+    return JSONResponse(response_body, status_code=200)
 
 
 if __name__ == "__main__":
