@@ -16,7 +16,7 @@ spec:
         app: admission-webhooks
     spec:
       containers:
-      - image: registry.harrisonkiang.com/container-registry/admission-webhooks:adbbc67d61c4425c0d0864491cb14b4875af771f
+      - image: registry.harrisonkiang.com/container-registry/admission-webhooks:8240a3224bc51282248ce672c65e44cb25824088
         name: admission-webhooks
         ports:
         - containerPort: 8080
