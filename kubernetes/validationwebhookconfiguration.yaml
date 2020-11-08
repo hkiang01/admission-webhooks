@@ -4,14 +4,13 @@ metadata:
   name: validating-webhooks
   namespace: admission-webhooks
 webhooks:
-  - name: admission-webhooks.harrisonkiang.com
+  - name: admission-webhooks
     failurePolicy: Fail
     clientConfig:
       service:
         name: admission-webhooks
         namespace: admission-webhooks
         path: /validate/deployments
-    #   caBundle: <redacted> # a base64 encoded self signed ca cert is needed because all Admission Webhooks need to be on SSL
     rules:
       - apiGroups: ["apps"]
         resources:

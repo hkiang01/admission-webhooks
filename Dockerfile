@@ -8,4 +8,7 @@ EXPOSE 8443
 
 COPY ./app/ ./app/
 
+ENV SSL_KEYFILE=${SSL_KEYFILE}
+ENV SSL_CERTFILE=${SSL_CERTFILE}
+
 CMD ["python", "app/main.py"]

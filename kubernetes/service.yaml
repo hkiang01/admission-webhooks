@@ -9,6 +9,6 @@ spec:
   ports:
   - port: 443
     protocol: TCP
-    targetPort: 8443
+    targetPort: https
   selector:
     app: admission-webhooks

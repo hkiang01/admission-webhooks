@@ -4,3 +4,9 @@ services:
     build: .
     ports:
       - "8443:8443"
+    environment:
+      - SSL_KEYFILE=/home/key.pem
+      - SSL_CERTFILE=/home/cert.pem
+    volumes:
+      - /home/harry/harrisonkiang-dot-com.key:/home/key.pem:ro
+      - /home/harry/harrisonkiang-dot-com.crt:/home/cert.pem:ro

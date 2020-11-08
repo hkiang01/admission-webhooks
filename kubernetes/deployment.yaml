@@ -22,3 +22,14 @@ spec:
         - containerPort: 8443
           protocol: TCP
           name: https
+        env:
+        - name: SSL_KEYFILE
+          valueFrom:
+            secretKeyRef:
+              name: harrisonkiang-dot-com-wildcard-tls
+              key: tls.key
+        - name: SSL_CERTFILE
+          valueFrom:
+            secretKeyRef:
+              name: harrisonkiang-dot-com-wildcard-tls
+              key: tls.crt
