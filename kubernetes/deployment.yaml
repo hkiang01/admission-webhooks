@@ -16,7 +16,7 @@ spec:
         app: admission-webhooks
     spec:
       containers:
-      - image: registry.harrisonkiang.com/container-registry/admission-webhooks:f69f1bd043641724b36866892aeaf84af709c05a
+      - image: registry.harrisonkiang.com/container-registry/admission-webhooks:5acec54a67a1e5b38b4639e079997a10cd1152a8
         name: admission-webhooks
         ports:
         - containerPort: 8443
@@ -24,12 +24,14 @@ spec:
           name: https
         env:
         - name: SSL_KEYFILE
-          valueFrom:
-            secretKeyRef:
-              name: harrisonkiang-dot-com-wildcard-tls
-              key: tls.key
+          value: /home/ssl/tls.key
         - name: SSL_CERTFILE
-          valueFrom:
-            secretKeyRef:
-              name: harrisonkiang-dot-com-wildcard-tls
-              key: tls.crt
+          value: /home/ssl/tls.crt
+        volumeMounts:
+          - name: ssl
+            mountPath: "/home/ssl"
+            readOnly: true
+      volumes:
+        - name: ssl
+          secret:
+            secretName: harrisonkiang-dot-com-wildcard-tls

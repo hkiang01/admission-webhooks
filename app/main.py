@@ -28,6 +28,6 @@ if __name__ == "__main__":
         app,
         host="0.0.0.0",
         port=8443,
-        # ssl_keyfile=os.environ["SSL_KEYFILE"],
-        # ssl_certfile=os.environ["SSL_CERTFILE"],
+        ssl_keyfile=os.environ["SSL_KEYFILE"],
+        ssl_certfile=os.environ["SSL_CERTFILE"],
     )
