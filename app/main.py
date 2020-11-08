@@ -11,7 +11,7 @@ def read_root():
 
 
 @app.post("/validate/deployments")
-async def validate_deployments(request: Request):
+async def validate_deployments(request: Request) -> JSONResponse:
     """Admission webhook to validate deployments
 
     Parameters
@@ -31,7 +31,8 @@ async def validate_deployments(request: Request):
         "kind": "AdmissionReview",
         "response": {"uid": uid, "allowed": True},
     }
-    return JSONResponse(allowed_response_body)
+
+    return JSONResponse(allowed_response_body, status_code=200)
 
 
 if __name__ == "__main__":
