@@ -30,12 +30,13 @@ async def validate_deployments(request: Request) -> JSONResponse:
     print(f"body_raw: {body_raw}\n")
     body = json.loads(body_raw)
     uid = body["request"]["uid"]
-    template_spec = body["request"]["object"]["spec"]["template"]["spec"]
-    if (
-        "securityContext" not in template_spec.keys()
-        or "runAsNonRoot" not in template_spec["securityContext"]
-        or template_spec["securityContext"]["runAsNonRoot"] is not True
-    ):
+    try:
+        run_as_non_root = body["request"]["object"]["spec"]["template"][
+            "spec"
+        ]["securityContext"]["runAsNonRoot"]
+    except KeyError:
+        run_as_non_root = False
+    if run_as_non_root is False:
         response_body = {
             "apiVersion": "admission.k8s.io/v1",
             "kind": "AdmissionReview",
