@@ -1,3 +1,5 @@
+import json
+
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
@@ -25,7 +27,7 @@ async def validate_deployments(request: Request) -> JSONResponse:
         See https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/#response
     """  # noqa: E501
     body = await request.body()
-    uid = body["request"]["uid"]
+    uid = json.loads(body)["request"]["uid"]
     allowed_response_body = {
         "apiVersion": "admission.k8s.io/v1",
         "kind": "AdmissionReview",
